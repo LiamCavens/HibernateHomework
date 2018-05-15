@@ -1,20 +1,28 @@
 package models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="orders")
 public class Order {
 
     private String description;
     private double price;
     private int id;
-
-    public Order(String description, double price) {
-        this.description = description;
-        this.price = price;
-        this.id = id;
-    }
+    private Customer customer;
 
     public Order() {
     }
 
+    public Order(String description, double price, Customer customer) {
+        this.description = description;
+        this.price = price;
+        this.id = id;
+        this.customer = customer;
+    }
+
+
+    @Column(name="description")
     public String getDescription() {
         return description;
     }
@@ -23,6 +31,7 @@ public class Order {
         this.description = description;
     }
 
+    @Column(name="price")
     public double getPrice() {
         return price;
     }
@@ -31,11 +40,24 @@ public class Order {
         this.price = price;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="customer_id", nullable = false)
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
